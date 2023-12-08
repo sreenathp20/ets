@@ -1,0 +1,255 @@
+Requirement already satisfied: PyAthena[SQLAlchemy] in /usr/local/lib/python3.9/site-packages (3.0.10)
+Requirement already satisfied: botocore>=1.29.4 in /usr/local/lib/python3.9/site-packages (from PyAthena[SQLAlchemy]) (1.33.8)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.9/site-packages (from PyAthena[SQLAlchemy]) (2023.12.1)
+Requirement already satisfied: boto3>=1.26.4 in /usr/local/lib/python3.9/site-packages (from PyAthena[SQLAlchemy]) (1.33.8)
+Requirement already satisfied: tenacity>=4.1.0 in /usr/local/lib/python3.9/site-packages (from PyAthena[SQLAlchemy]) (8.2.3)
+Requirement already satisfied: sqlalchemy>=1.0.0 in /usr/local/lib64/python3.9/site-packages (from PyAthena[SQLAlchemy]) (2.0.23)
+Requirement already satisfied: s3transfer<0.9.0,>=0.8.2 in /usr/local/lib/python3.9/site-packages (from boto3>=1.26.4->PyAthena[SQLAlchemy]) (0.8.2)
+Requirement already satisfied: jmespath<2.0.0,>=0.7.1 in /usr/lib/python3.9/site-packages (from boto3>=1.26.4->PyAthena[SQLAlchemy]) (0.10.0)
+Requirement already satisfied: python-dateutil<3.0.0,>=2.1 in /usr/local/lib/python3.9/site-packages (from botocore>=1.29.4->PyAthena[SQLAlchemy]) (2.8.2)
+Requirement already satisfied: urllib3<1.27,>=1.25.4 in /usr/lib/python3.9/site-packages (from botocore>=1.29.4->PyAthena[SQLAlchemy]) (1.25.10)
+Requirement already satisfied: greenlet!=0.4.17 in /usr/local/lib64/python3.9/site-packages (from sqlalchemy>=1.0.0->PyAthena[SQLAlchemy]) (3.0.1)
+Requirement already satisfied: typing-extensions>=4.2.0 in /usr/local/lib/python3.9/site-packages (from sqlalchemy>=1.0.0->PyAthena[SQLAlchemy]) (4.8.0)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3.9/site-packages (from python-dateutil<3.0.0,>=2.1->botocore>=1.29.4->PyAthena[SQLAlchemy]) (1.15.0)
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mClientError[0m                               Traceback (most recent call last)
+File [0;32m/usr/local/lib/python3.9/site-packages/pyathena/common.py:522[0m, in [0;36mBaseCursor._execute[0;34m(self, operation, parameters, work_group, s3_staging_dir, cache_size, cache_expiration_time, result_reuse_enable, result_reuse_minutes)[0m
+[1;32m    521[0m [38;5;28;01mtry[39;00m:
+[0;32m--> 522[0m     query_id [38;5;241m=[39m [43mretry_api_call[49m[43m([49m
+[1;32m    523[0m [43m        [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_connection[49m[38;5;241;43m.[39;49m[43mclient[49m[38;5;241;43m.[39;49m[43mstart_query_execution[49m[43m,[49m
+[1;32m    524[0m [43m        [49m[43mconfig[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_retry_config[49m[43m,[49m
+[1;32m    525[0m [43m        [49m[43mlogger[49m[38;5;241;43m=[39;49m[43m_logger[49m[43m,[49m
+[1;32m    526[0m [43m        [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mrequest[49m[43m,[49m
+[1;32m    527[0m [43m    [49m[43m)[49m[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mQueryExecutionId[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m)
+[1;32m    528[0m [38;5;28;01mexcept[39;00m [38;5;167;01mException[39;00m [38;5;28;01mas[39;00m e:
+
+File [0;32m/usr/local/lib/python3.9/site-packages/pyathena/util.py:85[0m, in [0;36mretry_api_call[0;34m(func, config, logger, *args, **kwargs)[0m
+[1;32m     69[0m retry [38;5;241m=[39m tenacity[38;5;241m.[39mRetrying(
+[1;32m     70[0m     retry[38;5;241m=[39mretry_if_exception(
+[1;32m     71[0m         [38;5;28;01mlambda[39;00m e: [38;5;28mgetattr[39m(e, [38;5;124m"[39m[38;5;124mresponse[39m[38;5;124m"[39m, {})[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mError[39m[38;5;124m"[39m, {})[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mCode[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m)
+[0;32m   (...)[0m
+[1;32m     83[0m     reraise[38;5;241m=[39m[38;5;28;01mTrue[39;00m,
+[1;32m     84[0m )
+[0;32m---> 85[0m [38;5;28;01mreturn[39;00m [43mretry[49m[43m([49m[43mfunc[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/usr/local/lib/python3.9/site-packages/tenacity/__init__.py:379[0m, in [0;36mRetrying.__call__[0;34m(self, fn, *args, **kwargs)[0m
+[1;32m    378[0m [38;5;28;01mwhile[39;00m [38;5;28;01mTrue[39;00m:
+[0;32m--> 379[0m     do [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43miter[49m[43m([49m[43mretry_state[49m[38;5;241;43m=[39;49m[43mretry_state[49m[43m)[49m
+[1;32m    380[0m     [38;5;28;01mif[39;00m [38;5;28misinstance[39m(do, DoAttempt):
+
+File [0;32m/usr/local/lib/python3.9/site-packages/tenacity/__init__.py:314[0m, in [0;36mBaseRetrying.iter[0;34m(self, retry_state)[0m
+[1;32m    313[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m (is_explicit_retry [38;5;129;01mor[39;00m [38;5;28mself[39m[38;5;241m.[39mretry(retry_state)):
+[0;32m--> 314[0m     [38;5;28;01mreturn[39;00m [43mfut[49m[38;5;241;43m.[39;49m[43mresult[49m[43m([49m[43m)[49m
+[1;32m    316[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39mafter [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+
+File [0;32m/usr/lib64/python3.9/concurrent/futures/_base.py:439[0m, in [0;36mFuture.result[0;34m(self, timeout)[0m
+[1;32m    438[0m [38;5;28;01melif[39;00m [38;5;28mself[39m[38;5;241m.[39m_state [38;5;241m==[39m FINISHED:
+[0;32m--> 439[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m__get_result[49m[43m([49m[43m)[49m
+[1;32m    441[0m [38;5;28mself[39m[38;5;241m.[39m_condition[38;5;241m.[39mwait(timeout)
+
+File [0;32m/usr/lib64/python3.9/concurrent/futures/_base.py:391[0m, in [0;36mFuture.__get_result[0;34m(self)[0m
+[1;32m    390[0m [38;5;28;01mtry[39;00m:
+[0;32m--> 391[0m     [38;5;28;01mraise[39;00m [38;5;28mself[39m[38;5;241m.[39m_exception
+[1;32m    392[0m [38;5;28;01mfinally[39;00m:
+[1;32m    393[0m     [38;5;66;03m# Break a reference cycle with the exception in self._exception[39;00m
+
+File [0;32m/usr/local/lib/python3.9/site-packages/tenacity/__init__.py:382[0m, in [0;36mRetrying.__call__[0;34m(self, fn, *args, **kwargs)[0m
+[1;32m    381[0m [38;5;28;01mtry[39;00m:
+[0;32m--> 382[0m     result [38;5;241m=[39m [43mfn[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+[1;32m    383[0m [38;5;28;01mexcept[39;00m [38;5;167;01mBaseException[39;00m:  [38;5;66;03m# noqa: B902[39;00m
+
+File [0;32m/usr/local/lib/python3.9/site-packages/botocore/client.py:553[0m, in [0;36mClientCreator._create_api_method.<locals>._api_call[0;34m(self, *args, **kwargs)[0m
+[1;32m    552[0m [38;5;66;03m# The "self" in this scope is referring to the BaseClient.[39;00m
+[0;32m--> 553[0m [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_make_api_call[49m[43m([49m[43moperation_name[49m[43m,[49m[43m [49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/usr/local/lib/python3.9/site-packages/botocore/client.py:1009[0m, in [0;36mBaseClient._make_api_call[0;34m(self, operation_name, api_params)[0m
+[1;32m   1008[0m     error_class [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mexceptions[38;5;241m.[39mfrom_code(error_code)
+[0;32m-> 1009[0m     [38;5;28;01mraise[39;00m error_class(parsed_response, operation_name)
+[1;32m   1010[0m [38;5;28;01melse[39;00m:
+
+[0;31mClientError[0m: An error occurred (AccessDeniedException) when calling the StartQueryExecution operation: You are not authorized to perform: athena:StartQueryExecution on the resource. After your AWS administrator or you have updated your permissions, please try again.
+
+The above exception was the direct cause of the following exception:
+
+[0;31mDatabaseError[0m                             Traceback (most recent call last)
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/base.py:1969[0m, in [0;36mConnection._exec_single_context[0;34m(self, dialect, context, statement, parameters)[0m
+[1;32m   1968[0m     [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m evt_handled:
+[0;32m-> 1969[0m         [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mdialect[49m[38;5;241;43m.[39;49m[43mdo_execute[49m[43m([49m
+[1;32m   1970[0m [43m            [49m[43mcursor[49m[43m,[49m[43m [49m[43mstr_statement[49m[43m,[49m[43m [49m[43meffective_parameters[49m[43m,[49m[43m [49m[43mcontext[49m
+[1;32m   1971[0m [43m        [49m[43m)[49m
+[1;32m   1973[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39m_has_events [38;5;129;01mor[39;00m [38;5;28mself[39m[38;5;241m.[39mengine[38;5;241m.[39m_has_events:
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/default.py:922[0m, in [0;36mDefaultDialect.do_execute[0;34m(self, cursor, statement, parameters, context)[0m
+[1;32m    921[0m [38;5;28;01mdef[39;00m [38;5;21mdo_execute[39m([38;5;28mself[39m, cursor, statement, parameters, context[38;5;241m=[39m[38;5;28;01mNone[39;00m):
+[0;32m--> 922[0m     [43mcursor[49m[38;5;241;43m.[39;49m[43mexecute[49m[43m([49m[43mstatement[49m[43m,[49m[43m [49m[43mparameters[49m[43m)[49m
+
+File [0;32m/usr/local/lib/python3.9/site-packages/pyathena/cursor.py:101[0m, in [0;36mCursor.execute[0;34m(self, operation, parameters, work_group, s3_staging_dir, cache_size, cache_expiration_time, result_reuse_enable, result_reuse_minutes)[0m
+[1;32m    100[0m [38;5;28mself[39m[38;5;241m.[39m_reset_state()
+[0;32m--> 101[0m [38;5;28mself[39m[38;5;241m.[39mquery_id [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_execute[49m[43m([49m
+[1;32m    102[0m [43m    [49m[43moperation[49m[43m,[49m
+[1;32m    103[0m [43m    [49m[43mparameters[49m[38;5;241;43m=[39;49m[43mparameters[49m[43m,[49m
+[1;32m    104[0m [43m    [49m[43mwork_group[49m[38;5;241;43m=[39;49m[43mwork_group[49m[43m,[49m
+[1;32m    105[0m [43m    [49m[43ms3_staging_dir[49m[38;5;241;43m=[39;49m[43ms3_staging_dir[49m[43m,[49m
+[1;32m    106[0m [43m    [49m[43mcache_size[49m[38;5;241;43m=[39;49m[43mcache_size[49m[43m,[49m
+[1;32m    107[0m [43m    [49m[43mcache_expiration_time[49m[38;5;241;43m=[39;49m[43mcache_expiration_time[49m[43m,[49m
+[1;32m    108[0m [43m    [49m[43mresult_reuse_enable[49m[38;5;241;43m=[39;49m[43mresult_reuse_enable[49m[43m,[49m
+[1;32m    109[0m [43m    [49m[43mresult_reuse_minutes[49m[38;5;241;43m=[39;49m[43mresult_reuse_minutes[49m[43m,[49m
+[1;32m    110[0m [43m[49m[43m)[49m
+[1;32m    111[0m query_execution [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_poll([38;5;28mself[39m[38;5;241m.[39mquery_id)
+
+File [0;32m/usr/local/lib/python3.9/site-packages/pyathena/common.py:530[0m, in [0;36mBaseCursor._execute[0;34m(self, operation, parameters, work_group, s3_staging_dir, cache_size, cache_expiration_time, result_reuse_enable, result_reuse_minutes)[0m
+[1;32m    529[0m         _logger[38;5;241m.[39mexception([38;5;124m"[39m[38;5;124mFailed to execute query.[39m[38;5;124m"[39m)
+[0;32m--> 530[0m         [38;5;28;01mraise[39;00m DatabaseError([38;5;241m*[39me[38;5;241m.[39margs) [38;5;28;01mfrom[39;00m [38;5;21;01me[39;00m
+[1;32m    531[0m [38;5;28;01mreturn[39;00m query_id
+
+[0;31mDatabaseError[0m: An error occurred (AccessDeniedException) when calling the StartQueryExecution operation: You are not authorized to perform: athena:StartQueryExecution on the resource. After your AWS administrator or you have updated your permissions, please try again.
+
+The above exception was the direct cause of the following exception:
+
+[0;31mDatabaseError[0m                             Traceback (most recent call last)
+File [0;32m/home/ec2-user/git/ets/DII-Template.py:37[0m
+[1;32m     32[0m [38;5;66;03m# In[20]:[39;00m
+[1;32m     33[0m 
+[1;32m     34[0m 
+[1;32m     35[0m [38;5;66;03m# get complete history of test ready events. This includes data across all environments. [39;00m
+[1;32m     36[0m query1 [38;5;241m=[39m [38;5;124m"[39m[38;5;124mSELECT * FROM processed_events where application_id=[39m[38;5;124m'[39m[38;5;124maecbd362-7e1f-48e8-af2d-f8b989c3615f[39m[38;5;124m'[39m[38;5;124m and year=[39m[38;5;124m'[39m[38;5;124m2023[39m[38;5;124m'[39m[38;5;124m"[39m
+[0;32m---> 37[0m test_ready_full_df [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mread_sql[49m[43m([49m[43mquery1[49m[43m,[49m[43m [49m[43mengine[49m[43m)[49m
+[1;32m     38[0m test_ready_full_df
+[1;32m     41[0m [38;5;66;03m# In[23]:[39;00m
+[1;32m     42[0m 
+[1;32m     43[0m 
+[0;32m   (...)[0m
+[1;32m     46[0m 
+[1;32m     47[0m [38;5;66;03m# to store any adhoc files required by transformations, can be placed in this s3 path.[39;00m
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/pandas/io/sql.py:682[0m, in [0;36mread_sql[0;34m(sql, con, index_col, coerce_float, params, parse_dates, columns, chunksize, dtype_backend, dtype)[0m
+[1;32m    672[0m     [38;5;28;01mreturn[39;00m pandas_sql[38;5;241m.[39mread_table(
+[1;32m    673[0m         sql,
+[1;32m    674[0m         index_col[38;5;241m=[39mindex_col,
+[0;32m   (...)[0m
+[1;32m    679[0m         dtype_backend[38;5;241m=[39mdtype_backend,
+[1;32m    680[0m     )
+[1;32m    681[0m [38;5;28;01melse[39;00m:
+[0;32m--> 682[0m     [38;5;28;01mreturn[39;00m [43mpandas_sql[49m[38;5;241;43m.[39;49m[43mread_query[49m[43m([49m
+[1;32m    683[0m [43m        [49m[43msql[49m[43m,[49m
+[1;32m    684[0m [43m        [49m[43mindex_col[49m[38;5;241;43m=[39;49m[43mindex_col[49m[43m,[49m
+[1;32m    685[0m [43m        [49m[43mparams[49m[38;5;241;43m=[39;49m[43mparams[49m[43m,[49m
+[1;32m    686[0m [43m        [49m[43mcoerce_float[49m[38;5;241;43m=[39;49m[43mcoerce_float[49m[43m,[49m
+[1;32m    687[0m [43m        [49m[43mparse_dates[49m[38;5;241;43m=[39;49m[43mparse_dates[49m[43m,[49m
+[1;32m    688[0m [43m        [49m[43mchunksize[49m[38;5;241;43m=[39;49m[43mchunksize[49m[43m,[49m
+[1;32m    689[0m [43m        [49m[43mdtype_backend[49m[38;5;241;43m=[39;49m[43mdtype_backend[49m[43m,[49m
+[1;32m    690[0m [43m        [49m[43mdtype[49m[38;5;241;43m=[39;49m[43mdtype[49m[43m,[49m
+[1;32m    691[0m [43m    [49m[43m)[49m
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/pandas/io/sql.py:1776[0m, in [0;36mSQLDatabase.read_query[0;34m(self, sql, index_col, coerce_float, parse_dates, params, chunksize, dtype, dtype_backend)[0m
+[1;32m   1719[0m [38;5;28;01mdef[39;00m [38;5;21mread_query[39m(
+[1;32m   1720[0m     [38;5;28mself[39m,
+[1;32m   1721[0m     sql: [38;5;28mstr[39m,
+[0;32m   (...)[0m
+[1;32m   1728[0m     dtype_backend: DtypeBackend [38;5;241m|[39m Literal[[38;5;124m"[39m[38;5;124mnumpy[39m[38;5;124m"[39m] [38;5;241m=[39m [38;5;124m"[39m[38;5;124mnumpy[39m[38;5;124m"[39m,
+[1;32m   1729[0m ) [38;5;241m-[39m[38;5;241m>[39m DataFrame [38;5;241m|[39m Iterator[DataFrame]:
+[1;32m   1730[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
+[1;32m   1731[0m [38;5;124;03m    Read SQL query into a DataFrame.[39;00m
+[1;32m   1732[0m 
+[0;32m   (...)[0m
+[1;32m   1774[0m 
+[1;32m   1775[0m [38;5;124;03m    """[39;00m
+[0;32m-> 1776[0m     result [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mexecute[49m[43m([49m[43msql[49m[43m,[49m[43m [49m[43mparams[49m[43m)[49m
+[1;32m   1777[0m     columns [38;5;241m=[39m result[38;5;241m.[39mkeys()
+[1;32m   1779[0m     [38;5;28;01mif[39;00m chunksize [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/pandas/io/sql.py:1599[0m, in [0;36mSQLDatabase.execute[0;34m(self, sql, params)[0m
+[1;32m   1597[0m args [38;5;241m=[39m [] [38;5;28;01mif[39;00m params [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m [38;5;28;01melse[39;00m [params]
+[1;32m   1598[0m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(sql, [38;5;28mstr[39m):
+[0;32m-> 1599[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mcon[49m[38;5;241;43m.[39;49m[43mexec_driver_sql[49m[43m([49m[43msql[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[43margs[49m[43m)[49m
+[1;32m   1600[0m [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39mcon[38;5;241m.[39mexecute(sql, [38;5;241m*[39margs)
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/base.py:1778[0m, in [0;36mConnection.exec_driver_sql[0;34m(self, statement, parameters, execution_options)[0m
+[1;32m   1773[0m execution_options [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_execution_options[38;5;241m.[39mmerge_with(
+[1;32m   1774[0m     execution_options
+[1;32m   1775[0m )
+[1;32m   1777[0m dialect [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mdialect
+[0;32m-> 1778[0m ret [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_execute_context[49m[43m([49m
+[1;32m   1779[0m [43m    [49m[43mdialect[49m[43m,[49m
+[1;32m   1780[0m [43m    [49m[43mdialect[49m[38;5;241;43m.[39;49m[43mexecution_ctx_cls[49m[38;5;241;43m.[39;49m[43m_init_statement[49m[43m,[49m
+[1;32m   1781[0m [43m    [49m[43mstatement[49m[43m,[49m
+[1;32m   1782[0m [43m    [49m[38;5;28;43;01mNone[39;49;00m[43m,[49m
+[1;32m   1783[0m [43m    [49m[43mexecution_options[49m[43m,[49m
+[1;32m   1784[0m [43m    [49m[43mstatement[49m[43m,[49m
+[1;32m   1785[0m [43m    [49m[43mdistilled_parameters[49m[43m,[49m
+[1;32m   1786[0m [43m[49m[43m)[49m
+[1;32m   1788[0m [38;5;28;01mreturn[39;00m ret
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/base.py:1848[0m, in [0;36mConnection._execute_context[0;34m(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)[0m
+[1;32m   1843[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_exec_insertmany_context(
+[1;32m   1844[0m         dialect,
+[1;32m   1845[0m         context,
+[1;32m   1846[0m     )
+[1;32m   1847[0m [38;5;28;01melse[39;00m:
+[0;32m-> 1848[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_exec_single_context[49m[43m([49m
+[1;32m   1849[0m [43m        [49m[43mdialect[49m[43m,[49m[43m [49m[43mcontext[49m[43m,[49m[43m [49m[43mstatement[49m[43m,[49m[43m [49m[43mparameters[49m
+[1;32m   1850[0m [43m    [49m[43m)[49m
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/base.py:1988[0m, in [0;36mConnection._exec_single_context[0;34m(self, dialect, context, statement, parameters)[0m
+[1;32m   1985[0m     result [38;5;241m=[39m context[38;5;241m.[39m_setup_result_proxy()
+[1;32m   1987[0m [38;5;28;01mexcept[39;00m [38;5;167;01mBaseException[39;00m [38;5;28;01mas[39;00m e:
+[0;32m-> 1988[0m     [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_handle_dbapi_exception[49m[43m([49m
+[1;32m   1989[0m [43m        [49m[43me[49m[43m,[49m[43m [49m[43mstr_statement[49m[43m,[49m[43m [49m[43meffective_parameters[49m[43m,[49m[43m [49m[43mcursor[49m[43m,[49m[43m [49m[43mcontext[49m
+[1;32m   1990[0m [43m    [49m[43m)[49m
+[1;32m   1992[0m [38;5;28;01mreturn[39;00m result
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/base.py:2343[0m, in [0;36mConnection._handle_dbapi_exception[0;34m(self, e, statement, parameters, cursor, context, is_sub_exec)[0m
+[1;32m   2341[0m [38;5;28;01melif[39;00m should_wrap:
+[1;32m   2342[0m     [38;5;28;01massert[39;00m sqlalchemy_exception [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
+[0;32m-> 2343[0m     [38;5;28;01mraise[39;00m sqlalchemy_exception[38;5;241m.[39mwith_traceback(exc_info[[38;5;241m2[39m]) [38;5;28;01mfrom[39;00m [38;5;21;01me[39;00m
+[1;32m   2344[0m [38;5;28;01melse[39;00m:
+[1;32m   2345[0m     [38;5;28;01massert[39;00m exc_info[[38;5;241m1[39m] [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/base.py:1969[0m, in [0;36mConnection._exec_single_context[0;34m(self, dialect, context, statement, parameters)[0m
+[1;32m   1967[0m                 [38;5;28;01mbreak[39;00m
+[1;32m   1968[0m     [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m evt_handled:
+[0;32m-> 1969[0m         [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mdialect[49m[38;5;241;43m.[39;49m[43mdo_execute[49m[43m([49m
+[1;32m   1970[0m [43m            [49m[43mcursor[49m[43m,[49m[43m [49m[43mstr_statement[49m[43m,[49m[43m [49m[43meffective_parameters[49m[43m,[49m[43m [49m[43mcontext[49m
+[1;32m   1971[0m [43m        [49m[43m)[49m
+[1;32m   1973[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39m_has_events [38;5;129;01mor[39;00m [38;5;28mself[39m[38;5;241m.[39mengine[38;5;241m.[39m_has_events:
+[1;32m   1974[0m     [38;5;28mself[39m[38;5;241m.[39mdispatch[38;5;241m.[39mafter_cursor_execute(
+[1;32m   1975[0m         [38;5;28mself[39m,
+[1;32m   1976[0m         cursor,
+[0;32m   (...)[0m
+[1;32m   1980[0m         context[38;5;241m.[39mexecutemany,
+[1;32m   1981[0m     )
+
+File [0;32m/usr/local/lib64/python3.9/site-packages/sqlalchemy/engine/default.py:922[0m, in [0;36mDefaultDialect.do_execute[0;34m(self, cursor, statement, parameters, context)[0m
+[1;32m    921[0m [38;5;28;01mdef[39;00m [38;5;21mdo_execute[39m([38;5;28mself[39m, cursor, statement, parameters, context[38;5;241m=[39m[38;5;28;01mNone[39;00m):
+[0;32m--> 922[0m     [43mcursor[49m[38;5;241;43m.[39;49m[43mexecute[49m[43m([49m[43mstatement[49m[43m,[49m[43m [49m[43mparameters[49m[43m)[49m
+
+File [0;32m/usr/local/lib/python3.9/site-packages/pyathena/cursor.py:101[0m, in [0;36mCursor.execute[0;34m(self, operation, parameters, work_group, s3_staging_dir, cache_size, cache_expiration_time, result_reuse_enable, result_reuse_minutes)[0m
+[1;32m     89[0m [38;5;28;01mdef[39;00m [38;5;21mexecute[39m(
+[1;32m     90[0m     [38;5;28mself[39m,
+[1;32m     91[0m     operation: [38;5;28mstr[39m,
+[0;32m   (...)[0m
+[1;32m     98[0m     result_reuse_minutes: Optional[[38;5;28mint[39m] [38;5;241m=[39m [38;5;28;01mNone[39;00m,
+[1;32m     99[0m ) [38;5;241m-[39m[38;5;241m>[39m Cursor:
+[1;32m    100[0m     [38;5;28mself[39m[38;5;241m.[39m_reset_state()
+[0;32m--> 101[0m     [38;5;28mself[39m[38;5;241m.[39mquery_id [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_execute[49m[43m([49m
+[1;32m    102[0m [43m        [49m[43moperation[49m[43m,[49m
+[1;32m    103[0m [43m        [49m[43mparameters[49m[38;5;241;43m=[39;49m[43mparameters[49m[43m,[49m
+[1;32m    104[0m [43m        [49m[43mwork_group[49m[38;5;241;43m=[39;49m[43mwork_group[49m[43m,[49m
+[1;32m    105[0m [43m        [49m[43ms3_staging_dir[49m[38;5;241;43m=[39;49m[43ms3_staging_dir[49m[43m,[49m
+[1;32m    106[0m [43m        [49m[43mcache_size[49m[38;5;241;43m=[39;49m[43mcache_size[49m[43m,[49m
+[1;32m    107[0m [43m        [49m[43mcache_expiration_time[49m[38;5;241;43m=[39;49m[43mcache_expiration_time[49m[43m,[49m
+[1;32m    108[0m [43m        [49m[43mresult_reuse_enable[49m[38;5;241;43m=[39;49m[43mresult_reuse_enable[49m[43m,[49m
+[1;32m    109[0m [43m        [49m[43mresult_reuse_minutes[49m[38;5;241;43m=[39;49m[43mresult_reuse_minutes[49m[43m,[49m
+[1;32m    110[0m [43m    [49m[43m)[49m
+[1;32m    111[0m     query_execution [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_poll([38;5;28mself[39m[38;5;241m.[39mquery_id)
+[1;32m    112[0m     [38;5;28;01mif[39;00m query_execution[38;5;241m.[39mstate [38;5;241m==[39m AthenaQueryExecution[38;5;241m.[39mSTATE_SUCCEEDED:
+
+File [0;32m/usr/local/lib/python3.9/site-packages/pyathena/common.py:530[0m, in [0;36mBaseCursor._execute[0;34m(self, operation, parameters, work_group, s3_staging_dir, cache_size, cache_expiration_time, result_reuse_enable, result_reuse_minutes)[0m
+[1;32m    528[0m     [38;5;28;01mexcept[39;00m [38;5;167;01mException[39;00m [38;5;28;01mas[39;00m e:
+[1;32m    529[0m         _logger[38;5;241m.[39mexception([38;5;124m"[39m[38;5;124mFailed to execute query.[39m[38;5;124m"[39m)
+[0;32m--> 530[0m         [38;5;28;01mraise[39;00m DatabaseError([38;5;241m*[39me[38;5;241m.[39margs) [38;5;28;01mfrom[39;00m [38;5;21;01me[39;00m
+[1;32m    531[0m [38;5;28;01mreturn[39;00m query_id
+
+[0;31mDatabaseError[0m: (pyathena.error.DatabaseError) An error occurred (AccessDeniedException) when calling the StartQueryExecution operation: You are not authorized to perform: athena:StartQueryExecution on the resource. After your AWS administrator or you have updated your permissions, please try again.
+[SQL: SELECT * FROM processed_events where application_id='aecbd362-7e1f-48e8-af2d-f8b989c3615f' and year='2023']
+(Background on this error at: https://sqlalche.me/e/20/4xp6)

@@ -5,13 +5,13 @@
 
 
 # downloading the required athena driver
-get_ipython().system('pip install PyAthena[SQLAlchemy]')
+#get_ipython().system('pip install PyAthena[SQLAlchemy]')
 
 
 # In[9]:
 
 
-get_ipython().system('aws configure get region')
+#get_ipython().system('aws configure get region')
 
 
 # In[19]:
